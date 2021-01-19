@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
   });
   const page = await browser.newPage();
   try {
+    res.setHeader("Cache-Control", "6s-maxage=86400, stale-while-revalidate");
     await page.goto("https://www.mildom.com/");
     /* eslint no-constant-condition: 0 */
     while (true) {
