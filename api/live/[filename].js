@@ -3,9 +3,9 @@ const { v4: uuidv4 } = require("uuid");
 
 module.exports = async (req, res) => {
   const {
-    query: { __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken },
-    params: { filename },
+    query: { filename, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken },
   } = req;
+  console.log(filename);
 
   try {
     const { data: m3u8_data } = await axios(`https://do8w5ym3okkik.cloudfront.net/live/${filename}.m3u8`, {
