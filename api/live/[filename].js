@@ -47,9 +47,10 @@ module.exports = async (req, res) => {
     res.setHeader("Content-Type", contentType);
     let data = server_response.data;
     if (contentType == "application/vnd.apple.mpegurl") {
+      let hadPrefetch = false;
       data = Buffer.from(data)
         .toString("utf8")
-        .replace(/([^:\r\n]+\.(?:ts|m3u8))$/gm, function (match, g1) {
+        .replace(/^(#EXT-X-PREFETCH:)?([^:\r\n]+\.(?:ts|m3u8))$/gm, function (match, prefetch, filename) {
           const query = qs.stringify({
             __guest_id,
             __location,
@@ -62,13 +63,12 @@ module.exports = async (req, res) => {
             accessToken,
             is_lhls,
           });
-          return `/api/live/${g1}?${query}`;
+          hadPrefetch = hadPrefetch || prefetch;
+          return `/api/live/${filename}?${query}`;
         });
-      const noPrefetch = data.replace(/#EXT-X-PREFETCH:/g, "");
-      if (data == noPrefetch) {
+      if (!hadPrefetch) {
         res.status(404);
       }
-      data = noPrefetch;
     }
     res.send(data);
   } catch (e) {
