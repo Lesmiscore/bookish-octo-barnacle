@@ -60,7 +60,6 @@ module.exports = async (req, res) => {
             __pcv,
             __sfr,
             accessToken,
-            streamReqId: uuidv4(),
             is_lhls,
           });
           return `https://bookish-octo-barnacle.vercel.app/api/live/${g1}?${query}`;
