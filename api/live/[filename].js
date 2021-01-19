@@ -1,4 +1,5 @@
 const axios = require("axios");
+const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = async (req, res) => {
@@ -13,9 +14,21 @@ module.exports = async (req, res) => {
     "User-Agent": req.headers["user-agent"],
     "X-Forwarded-For": req.headers["x-forwarded-for"],
   };
+  const query = qs.stringify({
+    timestamp: new Date().toISOString(),
+    __guest_id,
+    __location,
+    __country,
+    __cluster,
+    __platform,
+    __la,
+    __pcv,
+    __sfr,
+    accessToken,
+    streamReqId: uuidv4(),
+  });
   try {
-    const { data: m3u8_data } = await axios(`https://do8w5ym3okkik.cloudfront.net/live/${filename}.m3u8`, {
-      params: { timestamp: new Date().toISOString(), __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, streamReqId: uuidv4() },
+    const { data: m3u8_data } = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${filename}.m3u8?${query}`, {
       headers,
       responseType: "text",
     });
