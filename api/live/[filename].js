@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
         responseType: "arraybuffer",
       });
     } catch (e) {
-      server_response = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
+      server_response = await axios(`https://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
         headers,
         responseType: "arraybuffer",
       });
@@ -70,6 +70,6 @@ module.exports = async (req, res) => {
     }
     res.send(data);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(500).send(e.stack || e);
   }
 };
