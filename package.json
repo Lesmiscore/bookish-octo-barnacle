@@ -1,0 +1,48 @@
+{
+  "name": "bookish-octo-barnacle",
+  "version": "1.0.0",
+  "description": "mildom",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nao20010128nao/bookish-octo-barnacle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nao20010128nao/bookish-octo-barnacle/issues"
+  },
+  "homepage": "https://github.com/nao20010128nao/bookish-octo-barnacle#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "qs": "^6.9.6",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --print-width 200 --write",
+      "eslint",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --print-width 200 --write",
+      "git add"
+    ]
+  }
+}
