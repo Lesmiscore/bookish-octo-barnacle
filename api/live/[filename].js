@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
     if (contentType == "application/vnd.apple.mpegurl") {
       data = Buffer.from(data)
         .toString("utf8")
-        .replace(/([^:]+\.(ts|m3u8))$/gm, function (match, g1) {
+        .replace(/([^:\r\n]+\.(ts|m3u8))$/gm, function (match, g1) {
           const query = qs.stringify({
             __guest_id,
             __location,
