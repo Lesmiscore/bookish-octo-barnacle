@@ -15,10 +15,10 @@ module.exports = async (req, res) => {
     /* eslint no-constant-condition: 0 */
     while (true) {
       const dc = await page.evaluate(() => localStorage.getItem("dispatcher_config"));
-      try {
+      if (dc) {
         res.send(JSON.parse(dc));
         break;
-      } catch (e) {}
+      }
     }
   } finally {
     await page.close();
