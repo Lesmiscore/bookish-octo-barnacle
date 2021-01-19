@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
             accessToken,
             is_lhls,
           });
-          return `https://bookish-octo-barnacle.vercel.app/api/live/${g1}?${query}`;
+          return `/api/live/${g1}?${query}`;
         });
       const noPrefetch = data.replace(/#EXT-X-PREFETCH:/g, "");
       if (data == noPrefetch) {
