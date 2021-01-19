@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
       headers: {
         Referer: "https://www.mildom.com/",
         Origin: "https://www.mildom.com",
+        ...req.headers,
       },
       responseType: "text",
     });
