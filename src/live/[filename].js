@@ -16,6 +16,6 @@ module.exports = async (req, res) => {
     responseType: "text",
   });
   res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Content-Type", "application/x-mpegurl");
+  res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
   res.send(m3u8_data);
 };
