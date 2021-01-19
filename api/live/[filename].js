@@ -63,7 +63,9 @@ module.exports = async (req, res) => {
             is_lhls,
           });
           return `https://bookish-octo-barnacle.vercel.app/api/live/${g1}?${query}`;
-        });
+        })
+        .replace(/#EXT-X-PREFETCH:/g, "")
+        .replace(/#EXT-X-[^\n\r]+[\n\r]/g, "");
     }
     res.send(data);
   } catch (e) {
