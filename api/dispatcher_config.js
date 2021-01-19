@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
   try {
     res.setHeader("Cache-Control", "6s-maxage=86400, stale-while-revalidate");
     await page.goto("https://www.mildom.com/");
+    console.log("loaded");
     /* eslint no-constant-condition: 0 */
     while (true) {
       const dc = await page.evaluate(() => localStorage.getItem("dispatcher_config"));
