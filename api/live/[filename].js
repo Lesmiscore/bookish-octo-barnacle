@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 
 module.exports = async (req, res) => {
   const {
-    query: { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken },
+    query: { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls },
   } = req;
   console.log(filename, filename2);
   const realfile = filename2 || filename;
@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
     __sfr,
     accessToken,
     streamReqId: uuidv4(),
+    is_lhls,
   });
   try {
     let m3u8_data;
@@ -41,10 +42,10 @@ module.exports = async (req, res) => {
         responseType: "text",
       });
     }
-    m3u8_data = m3u8_data.data;
+    const contentType = m3u8_data.headers["Content-Type"] || m3u8_data.headers["content-type"] || "application/vnd.apple.mpegurl";
     res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
-    res.send(m3u8_data);
+    res.setHeader("Content-Type", contentType);
+    res.send(m3u8_data.data);
   } catch (e) {
     res.status(500).send(e);
   }
