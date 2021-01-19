@@ -1,4 +1,5 @@
 {
+  "routes": [{ "src": "^(?!/api/)(?<id>.*)", "dest": "/api/$id" }],
   "github": {
     "silent": true
   }
