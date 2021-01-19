@@ -30,22 +30,45 @@ module.exports = async (req, res) => {
     is_lhls,
   });
   try {
-    let m3u8_data;
+    let server_response;
     try {
-      m3u8_data = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
+      server_response = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
         headers,
-        responseType: "text",
+        responseType: "arraybuffer",
       });
     } catch (e) {
-      m3u8_data = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
+      server_response = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
         headers,
-        responseType: "text",
+        responseType: "arraybuffer",
       });
     }
-    const contentType = m3u8_data.headers["Content-Type"] || m3u8_data.headers["content-type"] || "application/vnd.apple.mpegurl";
+    const contentType = server_response.headers["content-type"];
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Content-Type", contentType);
-    res.send(m3u8_data.data);
+    let data = server_response.data;
+    if (contentType == "application/vnd.apple.mpegurl") {
+      const chunks = Buffer.from(data).toString("utf8").split(/\r?\n/);
+      for (const idx of chunks) {
+        chunks[idx] = chunks[idx].replace(/([^:]+\.ts)$/, function (match, g1) {
+          const query = qs.stringify({
+            __guest_id,
+            __location,
+            __country,
+            __cluster,
+            __platform,
+            __la,
+            __pcv,
+            __sfr,
+            accessToken,
+            streamReqId: uuidv4(),
+            is_lhls,
+          });
+          return `https://bookish-octo-barnacle.vercel.app/api/live/${g1}?${query}`;
+        });
+      }
+      data = chunks.join("\n");
+    }
+    res.send(data);
   } catch (e) {
     res.status(500).send(e);
   }
