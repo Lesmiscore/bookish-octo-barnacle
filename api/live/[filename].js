@@ -47,9 +47,9 @@ module.exports = async (req, res) => {
     res.setHeader("Content-Type", contentType);
     let data = server_response.data;
     if (contentType == "application/vnd.apple.mpegurl") {
-      const chunks = Buffer.from(data).toString("utf8").split(/\r?\n/);
-      for (const idx in chunks) {
-        chunks[idx] = chunks[idx].replace(/([^:]+\.ts)$/, function (match, g1) {
+      data = Buffer.from(data)
+        .toString("utf8")
+        .replace(/([^:]+\.(ts|m3u8))$/gm, function (match, g1) {
           const query = qs.stringify({
             __guest_id,
             __location,
@@ -64,8 +64,6 @@ module.exports = async (req, res) => {
           });
           return `https://bookish-octo-barnacle.vercel.app/api/live/${g1}?${query}`;
         });
-      }
-      data = chunks.join("\n");
     }
     res.send(data);
   } catch (e) {
