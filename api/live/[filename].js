@@ -7,14 +7,16 @@ module.exports = async (req, res) => {
   } = req;
   console.log(filename);
 
+  const headers = {
+    Referer: "https://www.mildom.com/",
+    Origin: "https://www.mildom.com",
+    "User-Agent": req.headers["user-agent"],
+    "X-Forwarded-For": req.headers["x-forwarded-for"],
+  };
   try {
     const { data: m3u8_data } = await axios(`https://do8w5ym3okkik.cloudfront.net/live/${filename}.m3u8`, {
       params: { timestamp: new Date().toISOString(), __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, streamReqId: uuidv4() },
-      headers: {
-        Referer: "https://www.mildom.com/",
-        Origin: "https://www.mildom.com",
-        ...req.headers,
-      },
+      headers,
       responseType: "text",
     });
     res.setHeader("Cache-Control", "no-cache");
