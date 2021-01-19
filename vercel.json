@@ -1,5 +1,8 @@
 {
-  "routes": [{ "src": "^(?!/api/)(?<id>.*)", "dest": "/api/$id" }],
+  "routes": [
+    { "src": "^(?!/api/)live/(?<id>[^?]*)\\?(?<query>.*)", "dest": "/api/live/a?filename2=$id&$query" },
+    { "src": "^(?!/api/)(?<id>.*)", "dest": "/api/$id" }
+  ],
   "github": {
     "silent": true
   }
