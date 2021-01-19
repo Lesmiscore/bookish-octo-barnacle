@@ -64,8 +64,7 @@ module.exports = async (req, res) => {
           });
           return `https://bookish-octo-barnacle.vercel.app/api/live/${g1}?${query}`;
         })
-        .replace(/#EXT-X-PREFETCH:/g, "")
-        .replace(/#EXT-X-[^\n\r]+[\n\r]/g, "");
+        .replace(/#EXT-X-PREFETCH:/g, "");
     }
     res.send(data);
   } catch (e) {
