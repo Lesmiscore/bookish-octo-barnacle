@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
     let data = server_response.data;
     if (contentType == "application/vnd.apple.mpegurl") {
       const chunks = Buffer.from(data).toString("utf8").split(/\r?\n/);
-      for (const idx of chunks) {
+      for (const idx in chunks) {
         chunks[idx] = chunks[idx].replace(/([^:]+\.ts)$/, function (match, g1) {
           const query = qs.stringify({
             __guest_id,
@@ -70,6 +70,7 @@ module.exports = async (req, res) => {
     }
     res.send(data);
   } catch (e) {
-    res.status(500).send(e.stack || e);
+    console.log(e.stack || e);
+    res.status(500).send({ e, stack: e.stack });
   }
 };
