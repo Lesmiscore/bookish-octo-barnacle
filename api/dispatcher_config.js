@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     console.log("loaded");
     /* eslint no-constant-condition: 0 */
     while (true) {
-      const dc = await page.evaluate(() => localStorage.getItem("dispatcher_config"));
+      const dc = await page.evaluate(() => localStorage.getItem("dispacher_config"));
       if (dc) {
         res.send(JSON.parse(dc));
         break;
