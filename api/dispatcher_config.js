@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     "X-Forwarded-For": req.headers["x-forwarded-for"],
   });
   try {
-    res.setHeader("Cache-Control", "6s-maxage=86400, stale-while-revalidate");
+    res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate");
     await page.goto("https://www.mildom.com/");
     console.log("loaded");
     /* eslint no-constant-condition: 0 */
