@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
           });
           return `/api/vod2/proxy?${query}`;
         })
-        .replace(/#EXTINF:\d+\.\d+/g, "#EXTINF:0.000001");
+        .replace(/#EXTINF:\d+\.\d+/g, "#EXTINF:0.0001");
     }
     res.send(data);
   } catch (e) {
