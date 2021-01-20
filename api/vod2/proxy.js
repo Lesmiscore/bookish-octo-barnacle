@@ -64,7 +64,8 @@ module.exports = async (req, res) => {
             path: new URL(filename, `https://d3ooprpqd2179o.cloudfront.net/vod/${path}`).pathname.substring(5),
           });
           return `/api/vod2/proxy?${query}`;
-        });
+        })
+        .replace(/#EXTINF:\d+\.\d+/g, "#EXTINF:0.000001");
     }
     res.send(data);
   } catch (e) {
