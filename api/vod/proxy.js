@@ -4,10 +4,9 @@ const { v4: uuidv4 } = require("uuid");
 
 module.exports = async (req, res) => {
   const {
-    query: { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls },
+    query: { path, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls },
   } = req;
-  console.log(filename, filename2);
-  const realfile = filename2 || filename;
+  console.log(path);
 
   const headers = {
     Referer: "https://www.mildom.com/",
@@ -32,12 +31,12 @@ module.exports = async (req, res) => {
   try {
     let server_response;
     try {
-      server_response = await axios(`http://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
+      server_response = await axios(`http://d3ooprpqd2179o.cloudfront.net/vod/${path}?${query}`, {
         headers,
         responseType: "arraybuffer",
       });
     } catch (e) {
-      server_response = await axios(`https://do8w5ym3okkik.cloudfront.net/live/${realfile}?${query}`, {
+      server_response = await axios(`https://d3ooprpqd2179o.cloudfront.net/vod/${path}?${query}`, {
         headers,
         responseType: "arraybuffer",
       });
@@ -46,8 +45,7 @@ module.exports = async (req, res) => {
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Content-Type", contentType);
     let data = server_response.data;
-    if (realfile.endsWith(".m3u8")) {
-      let hadPrefetch = false;
+    if (path.endsWith(".m3u8")) {
       data = Buffer.from(data)
         .toString("utf8")
         .replace(/^(#EXT-X-PREFETCH:)?([^:\r\n]+\.(?:ts|m3u8))$/gm, function (match, prefetch, filename) {
@@ -63,12 +61,8 @@ module.exports = async (req, res) => {
             accessToken,
             is_lhls,
           });
-          hadPrefetch = hadPrefetch || prefetch;
-          return `/api/live/${filename}?${query}`;
+          return `/api/vod/${filename}?${query}`;
         });
-      if (!hadPrefetch) {
-        res.status(404);
-      }
     }
     res.send(data);
   } catch (e) {
