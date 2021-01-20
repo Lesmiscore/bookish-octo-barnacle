@@ -60,8 +60,9 @@ module.exports = async (req, res) => {
             __sfr,
             accessToken,
             is_lhls,
+            path,
           });
-          return `/api/vod/${filename}?${query}`;
+          return `/api/vod2/proxy?${query}`;
         });
     }
     res.send(data);
