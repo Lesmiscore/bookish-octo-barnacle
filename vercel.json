@@ -1,7 +1,7 @@
 {
   "routes": [
     { "src": "^(?!/api/)live/(?<id>[^?]*)\\?(?<query>.*)", "dest": "/api/live/a?filename2=$id&$query" },
-    { "src": "^(?:/api/)?vod/(?<path>[^?]*)\\?(?<query>.*)", "dest": "/api/vod/proxy?path=$path&$query" },
+    { "src": "^(?:/api/)?vod/(?<path>[^?]*)\\?(?<query>.*)", "dest": "/api/vod2/proxy?path=$path&$query" },
     { "src": "^(?!/api/)(?<id>.*)", "dest": "/api/$id" }
   ],
   "github": {
