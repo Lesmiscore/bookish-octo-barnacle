@@ -1,6 +1,7 @@
 const axios = require("axios");
 const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
+const { URL } = require("url");
 
 module.exports = async (req, res) => {
   const {
@@ -60,7 +61,7 @@ module.exports = async (req, res) => {
             __sfr,
             accessToken,
             is_lhls,
-            path,
+            path: new URL(filename, `https://d3ooprpqd2179o.cloudfront.net/vod/${path}`).pathname.substring(5),
           });
           return `/api/vod2/proxy?${query}`;
         });
