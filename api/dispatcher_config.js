@@ -8,9 +8,6 @@ module.exports = async (req, res) => {
     env: process.env,
   });
   const page = await browser.newPage();
-  await page.setExtraHTTPHeaders({
-    "X-Forwarded-For": req.headers["x-forwarded-for"],
-  });
   try {
     res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate");
     await page.goto("https://www.mildom.com/");
