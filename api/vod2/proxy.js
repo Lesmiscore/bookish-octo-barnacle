@@ -4,9 +4,11 @@ const { v4: uuidv4 } = require("uuid");
 const { URL } = require("url");
 
 module.exports = async (req, res) => {
-  const {
-    query: { path, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls },
-  } = req;
+  let extendedQuery = {};
+  try {
+    extendedQuery = JSON.parse(res.headers["x-mildom-query"]) || {};
+  } catch (e) {}
+  const { path, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls } = Object.assign({}, req.query, extendedQuery);
   console.log(path);
 
   const headers = {
@@ -50,7 +52,8 @@ module.exports = async (req, res) => {
       // contentType = "application/vnd.typescript";
       contentType = "video/mp2t";
     }
-    res.setHeader("Cache-Control", "no-cache");
+    // everything will not change
+    res.setHeader("Cache-Control", "public, max-age=31536000");
     res.setHeader("Content-Type", contentType);
     let data = server_response.data;
     if (path.endsWith(".m3u8")) {

@@ -3,9 +3,11 @@ const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = async (req, res) => {
-  const {
-    query: { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls },
-  } = req;
+  let extendedQuery = {};
+  try {
+    extendedQuery = JSON.parse(res.headers["x-mildom-query"]) || {};
+  } catch (e) {}
+  const { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls } = Object.assign({}, req.query, extendedQuery);
   console.log(filename, filename2);
   const realfile = filename2 || filename;
 
@@ -43,7 +45,13 @@ module.exports = async (req, res) => {
       });
     }
     const contentType = server_response.headers["content-type"];
-    res.setHeader("Cache-Control", "no-cache");
+    if (realfile.endsWith(".ts")) {
+      // cache segments
+      res.setHeader("Cache-Control", "public, max-age=31536000");
+    } else {
+      // ...while not for m3u8 files
+      res.setHeader("Cache-Control", "no-cache");
+    }
     res.setHeader("Content-Type", contentType);
     let data = server_response.data;
     if (realfile.endsWith(".m3u8")) {
