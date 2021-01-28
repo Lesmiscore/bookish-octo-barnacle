@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
           return `/api/live/${filename}?${query}`;
         });
       if (!hadPrefetch) {
-        res.status(404);
+        data += "\n#EXT-X-ENDLIST\n";
       }
     }
     res.send(data);
