@@ -42,7 +42,14 @@ module.exports = async (req, res) => {
         responseType: "arraybuffer",
       });
     }
-    const contentType = server_response.headers["content-type"];
+    let contentType = "application/octet-stream";
+    if (path.endsWith(".m3u8")) {
+      contentType = "application/mpegurl";
+    } else if (path.endsWith(".ts")) {
+      // this is not TypeScript one!
+      // contentType = "application/vnd.typescript";
+      contentType = "video/mp2t";
+    }
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Content-Type", contentType);
     let data = server_response.data;
@@ -65,6 +72,7 @@ module.exports = async (req, res) => {
           });
           return `/api/vod2/proxy?${query}`;
         });
+      data += "\n#EXT-X-ENDLIST\n";
     }
     res.send(data);
   } catch (e) {
