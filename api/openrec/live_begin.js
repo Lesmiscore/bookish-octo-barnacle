@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     const lastSegmentNumber = parseInt(lastSegment.match(lastNumber));
     console.log(lastSegmentNumber);
 
-    let result = "#EXTM3U\n#EXT-X-VERSION:3\n"; //preambleText;
+    let result = preambleText;
 
     for (let num = 0; num <= lastSegmentNumber; num++) {
       const segName = lastSegment.replace(lastNumber, `${num}.ts`);
