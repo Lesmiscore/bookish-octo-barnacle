@@ -72,7 +72,7 @@ module.exports = async (req, res) => {
             is_lhls,
           });
           hadPrefetch = hadPrefetch || prefetch;
-          return `/api/live/${filename}?${query}`;
+          return `/api/mildom/live/${filename}?${query}`;
         });
       if (!hadPrefetch) {
         data += "\n#EXT-X-ENDLIST\n";

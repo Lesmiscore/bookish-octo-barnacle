@@ -1,7 +1,6 @@
 const axios = require("axios");
 const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
-const { URL } = require("url");
 
 module.exports = async (req, res) => {
   let extendedQuery = {};
@@ -73,7 +72,7 @@ module.exports = async (req, res) => {
             is_lhls,
             path: new URL(filename, `https://d3ooprpqd2179o.cloudfront.net/vod/${path}`).pathname.substring(5),
           });
-          return `/api/vod2/proxy?${query}`;
+          return `/api/mildom/vod2/proxy?${query}`;
         });
       data += "\n#EXT-X-ENDLIST\n";
     }
