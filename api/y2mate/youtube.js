@@ -47,10 +47,10 @@ module.exports = async (req, res) => {
 
   const videoTableRegex = new RegExp(
     `<tr>\\s*
-      <td>.+?(\\d+p).+?</td>\\s*
-      <td>(.*?\\s*[kMG]?B)</td>\\s*
-      <td\\s*.+?>.+?(?:data-ftype="(.+?)".+?)?(?:data-fquality="(.+?)".+?)?</td>\\s*
-  </tr>`.replace(/\s+/g, ""),
+        <td>.+?(\\d+p).+?</td>\\s*
+        <td>(.*?\\s*[kMG]?B)</td>\\s*
+        <td\\s*.+?>.+?(?:data-ftype="(.+?)".+?)?(?:data-fquality="(.+?)".+?)?</td>\\s*
+    </tr>`.replace(/\s+/g, ""),
     "g"
   );
   // console.log(videoTableRegex,videoTable);
@@ -78,7 +78,7 @@ module.exports = async (req, res) => {
             headers: commonHeaders,
             data: qsData,
             responseType: "json",
-          });
+          }).catch((e) => ({ data: { status: e } }));
           if (urlData["status"] != "success") {
             console.log(`Server responded with status ${urlData["status"]}`);
             continue;
@@ -131,7 +131,7 @@ module.exports = async (req, res) => {
             headers: commonHeaders,
             data: qsData,
             responseType: "json",
-          });
+          }).catch((e) => ({ data: { status: e } }));
           if (urlData["status"] != "success") {
             console.log(`Server responded with status ${urlData["status"]}`);
             continue;
@@ -156,7 +156,7 @@ module.exports = async (req, res) => {
   }
 
   setTimeout(() => {
-    res.redirect(`/api/y2mate/youtube?id=${id}&retry=${(retry || 0) + 1}`);
+    res.redirect(`/api/y2mate/youtube?id=${id}&retry=${parseInt(retry || 0) + 1}`);
   }, 6000);
   const formats = await Promise.all(promises);
 
