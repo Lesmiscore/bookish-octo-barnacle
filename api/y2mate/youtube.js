@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     "User-Agent": userAgent,
   };
 
-  let { data: sizeSpecs } = await axios("https://www.y2mate.com/mates/analyze/ajax", {
+  const { data: sizeSpecData } = await axios("https://www.y2mate.com/mates/analyze/ajax", {
     method: "POST",
     headers: commonHeaders,
     data: qs.stringify({
@@ -28,15 +28,20 @@ module.exports = async (req, res) => {
       ajax: "1",
     }),
     responseType: "json",
-  });
+  }).catch((e) => ({ data: { status: e } }));
 
-  if (sizeSpecs["status"] != "success") {
-    return res.status(404).send(`Server responded with status ${sizeSpecs["status"]}`);
+  if (sizeSpecData["status"] != "success") {
+    console.log(`Server responded with status ${sizeSpecData["status"]}`);
+    return res.redirect(`/api/y2mate/youtube?id=${id}&retry=${parseInt(retry || 0) + 1}`);
   }
 
-  sizeSpecs = sizeSpecs["result"];
+  const sizeSpecs = sizeSpecs["result"];
 
-  const title = /<b>(.+?)<\/b>/.exec(sizeSpecs)[1].trim();
+  const titleMatch = /<b>(.+?)<\/b>/.exec(sizeSpecs);
+  if (!titleMatch) {
+    return res.status(404).send(`Server responded with status ${sizeSpecs["status"]}`);
+  }
+  const title = titleMatch[1].trim();
 
   const requestId = /var k__id\s*=\s*(["'])(.+?)\1/.exec(sizeSpecs)[2];
 
@@ -79,6 +84,7 @@ module.exports = async (req, res) => {
             data: qsData,
             responseType: "json",
           }).catch((e) => ({ data: { status: e } }));
+
           if (urlData["status"] != "success") {
             console.log(`Server responded with status ${urlData["status"]}`);
             continue;
@@ -132,6 +138,7 @@ module.exports = async (req, res) => {
             data: qsData,
             responseType: "json",
           }).catch((e) => ({ data: { status: e } }));
+
           if (urlData["status"] != "success") {
             console.log(`Server responded with status ${urlData["status"]}`);
             continue;
