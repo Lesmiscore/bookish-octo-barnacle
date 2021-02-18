@@ -155,10 +155,13 @@ module.exports = async (req, res) => {
     );
   }
 
+  let timeout = false;
   setTimeout(() => {
     res.redirect(`/api/y2mate/youtube?id=${id}&retry=${parseInt(retry || 0) + 1}`);
+    timeout = true;
   }, 6000);
   const formats = await Promise.all(promises);
+  if (timeout) return;
 
   res.send({
     id: id,
