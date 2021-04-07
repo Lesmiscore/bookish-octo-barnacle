@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
   if (false) {
     res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate");
     res.setHeader("Content-Type", "image/png");
-    const screenshot = await fs.readFile(__dirname + "/../assets/ng.png")
+    const screenshot = await fs.readFile(__dirname + "/../assets/ng.png");
     res.send(screenshot);
   }
 
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
   try {
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
     res.setHeader("Content-Type", "image/png");
-    await page.setViewport({ width: 2048, height: 1536, deviceScaleFactor:2 })
+    await page.setViewport({ width: 1024, height: 768, deviceScaleFactor: 2 });
     await page.goto(`https://google.com/search?q=${encodeURIComponent(q)}`);
     await new Promise(r => setTimeout(r, 4000));
     const screenshot = await page.screenshot({ type: "png" });
