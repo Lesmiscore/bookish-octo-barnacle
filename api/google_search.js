@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
     res.setHeader("Content-Type", "image/png");
     const screenshot = fs.readFileSync(__dirname + "/../assets/ng.png");
     res.send(screenshot);
+    return;
   }
 
   const { puppeteer } = chromium;
