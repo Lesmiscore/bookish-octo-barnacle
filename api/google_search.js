@@ -15,14 +15,18 @@ function chromiumFontSetup() {
   }
 }
 
+const negative = [
+  /nao20010128nao/
+];
+
 module.exports = async (req, res) => {
   chromiumFontSetup();
   const { q } = req.query;
 
-  if (false) {
+  if (negative.some(v => v.test(q))) {
     res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate");
     res.setHeader("Content-Type", "image/png");
-    const screenshot = await fs.readFile(__dirname + "/../assets/ng.png");
+    const screenshot = fs.readFileSync(__dirname + "/../assets/ng.png");
     res.send(screenshot);
   }
 
