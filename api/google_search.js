@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
     res.setHeader("Content-Type", "image/png");
     await page.setViewport({ width: 1024, height: 768, deviceScaleFactor: 2 });
     await page.goto(`https://google.com/search?q=${encodeURIComponent(q)}`);
-    await new Promise(r => setTimeout(r, 4000));
+    await new Promise(r => setTimeout(r, 500));
     const screenshot = await page.screenshot({ type: "png" });
     res.send(screenshot);
   } finally {
