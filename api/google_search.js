@@ -16,8 +16,15 @@ function chromiumFontSetup() {
 }
 
 module.exports = async (req, res) => {
-  chromiumFontSetup() ;
+  chromiumFontSetup();
   const { q } = req.query;
+
+  if (false) {
+    res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate");
+    res.setHeader("Content-Type", "image/png");
+    const screenshot = await fs.readFile(__dirname + "/../assets/ng.png")
+    res.send(screenshot);
+  }
 
   const { puppeteer } = chromium;
   const browser = await puppeteer.launch({
@@ -28,7 +35,8 @@ module.exports = async (req, res) => {
   const page = await browser.newPage();
   try {
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
-    res.setHeader('Content-Type', 'image/png');
+    res.setHeader("Content-Type", "image/png");
+    await page.setViewport({ width: 2048, height: 1536, deviceScaleFactor:2 })
     await page.goto(`https://google.com/search?q=${encodeURIComponent(q)}`);
     await new Promise(r => setTimeout(r, 4000));
     const screenshot = await page.screenshot({ type: "png" });
