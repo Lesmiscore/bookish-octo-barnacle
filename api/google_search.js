@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
   try {
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
     res.setHeader("Content-Type", "image/png");
-    await page.setViewport({ width: 1024, height: 768, deviceScaleFactor: 2 });
+    await page.setViewport({ width: 1024, height: 768, deviceScaleFactor: 4 });
     await page.goto(`https://google.com/search?q=${encodeURIComponent(q)}`);
     await new Promise(r => setTimeout(r, 500));
     const screenshot = await page.screenshot({ type: "png" });
