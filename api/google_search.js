@@ -1,6 +1,7 @@
 const chromium = require("chrome-aws-lambda");
 const fs = require("fs");
 const path = require("path");
+const { performance } = require('perf_hooks');
 
 
 function chromiumFontSetup() {
