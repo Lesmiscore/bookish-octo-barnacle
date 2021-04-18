@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
   try {
     extendedQuery = JSON.parse(res.headers["x-mildom-query"]) || {};
   } catch (e) {}
-  const { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls } = Object.assign({}, req.query, extendedQuery);
+  const { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls } = Object.assign({}, req.query, req.params || {}, extendedQuery);
   console.log(filename, filename2);
   const realfile = filename2 || filename;
 
