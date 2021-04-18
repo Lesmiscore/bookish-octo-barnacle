@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 
+app.get('/', require("./api/index.js"));
 app.get('/api/', require("./api/index.js"));
 app.get('/api/google_search', require("./api/google_search.js"));
 
