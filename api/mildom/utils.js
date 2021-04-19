@@ -13,10 +13,10 @@ function mildomProxyHost(seed) {
         for (num in chars) {
             index *= Number(num);
             index += chars[num].charCodeAt(0);
-            index %= MILDOM_PROXY_HOSTS.length;
         }
+        index %= MILDOM_PROXY_HOSTS.length;
     } else {
-        index = Math.floor(Math.min(2, Math.random() * MILDOM_PROXY_HOSTS.length));
+        index = Math.floor(Math.min(MILDOM_PROXY_HOSTS.length, Math.random() * MILDOM_PROXY_HOSTS.length));
     }
     return MILDOM_PROXY_HOSTS[index];
 }
