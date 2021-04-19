@@ -4,6 +4,10 @@ const { v4: uuidv4 } = require("uuid");
 const { mildomProxyHost } = require('../utils');
 
 module.exports = async (req, res) => {
+  if (process.env.VERCEL) {
+    res.status(418).send("stopped temprary due to limit");
+    return;
+  }
   let extendedQuery = {};
   try {
     extendedQuery = JSON.parse(res.headers["x-mildom-query"]) || {};
