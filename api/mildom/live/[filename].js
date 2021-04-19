@@ -1,13 +1,13 @@
 const axios = require("axios");
 const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
-const {mildomProxyHost } = require('../utils');
+const { mildomProxyHost } = require('../utils');
 
 module.exports = async (req, res) => {
   let extendedQuery = {};
   try {
     extendedQuery = JSON.parse(res.headers["x-mildom-query"]) || {};
-  } catch (e) {}
+  } catch (e) { }
   const { filename, filename2, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls } = Object.assign({}, req.query, req.params || {}, extendedQuery);
   console.log(filename, filename2);
   const realfile = filename2 || filename;
