@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     Referer: "https://www.mildom.com/",
     Origin: "https://www.mildom.com",
     "User-Agent": req.headers["user-agent"],
-    "X-Forwarded-For": req.headers["x-forwarded-for"],
+    "X-Forwarded-For": req.headers["x-forwarded-for"] || "",
   };
   const query = qs.stringify({
     timestamp: new Date().toISOString(),
