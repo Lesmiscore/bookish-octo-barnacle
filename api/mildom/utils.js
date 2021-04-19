@@ -1,7 +1,7 @@
 const MILDOM_PROXY_HOSTS = [
     // 'bookish-octo-barnacle.vercel.app',  // Vercel (has 100GB limit, no ratelimit)
     'free-mountain-goal.glitch.me',  // Glitch (400 req/hrs, has execution time limit per month)
-    'lesmimonabb.dip.jp',  // Self-hosted (1TB bandwidth limit, but other contents are served in the host)
+    'lesmih0sted.f5.si',  // Self-hosted (1TB bandwidth limit, but other contents are served in the host)
 ]
 
 function mildomProxyHost(seed) {
