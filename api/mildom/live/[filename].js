@@ -72,7 +72,7 @@ module.exports = async (req, res) => {
             accessToken,
             is_lhls,
           });
-          hadPrefetch = hadPrefetch || prefetch;
+          hadPrefetch |= !!prefetch;
           return `https://${mildomProxyHost(filename)}/api/mildom/live/${filename}?${query}`;
         });
       if (!hadPrefetch) {

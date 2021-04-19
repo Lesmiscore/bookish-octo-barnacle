@@ -11,7 +11,7 @@ function mildomProxyHost(seed) {
         index = 0;
         const chars = [...`${seed}`];
         for (num in chars) {
-            index *= Number(num);
+            //index *= Number(num);
             index += chars[num].charCodeAt(0);
         }
         index %= MILDOM_PROXY_HOSTS.length;
