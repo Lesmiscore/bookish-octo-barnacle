@@ -1,12 +1,13 @@
 const axios = require("axios");
 const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
+const { mildomProxyHost } = require('../utils');
 
 module.exports = async (req, res) => {
   let extendedQuery = {};
   try {
     extendedQuery = JSON.parse(res.headers["x-mildom-query"]) || {};
-  } catch (e) {}
+  } catch (e) { }
   const { path, __guest_id, __location, __country, __cluster, __platform, __la, __pcv, __sfr, accessToken, is_lhls } = Object.assign({}, req.query, extendedQuery);
   console.log(path);
 
@@ -72,7 +73,7 @@ module.exports = async (req, res) => {
             is_lhls,
             path: new URL(filename, `https://d3ooprpqd2179o.cloudfront.net/vod/${path}`).pathname.substring(5),
           });
-          return `/api/mildom/vod2/proxy?${query}`;
+          return `https://${mildomProxyHost(filename)}/api/mildom/vod2/proxy?${query}`;
         });
       data += "\n#EXT-X-ENDLIST\n";
     }

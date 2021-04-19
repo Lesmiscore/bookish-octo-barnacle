@@ -1,6 +1,7 @@
 const axios = require("axios");
 const qs = require("qs");
 const { v4: uuidv4 } = require("uuid");
+const {mildomProxyHost } = require('../utils');
 
 module.exports = async (req, res) => {
   let extendedQuery = {};
@@ -72,7 +73,7 @@ module.exports = async (req, res) => {
             is_lhls,
           });
           hadPrefetch = hadPrefetch || prefetch;
-          return `/api/mildom/live/${filename}?${query}`;
+          return `https://${mildomProxyHost(filename)}/api/mildom/live/${filename}?${query}`;
         });
       if (!hadPrefetch) {
         data += "\n#EXT-X-ENDLIST\n";
