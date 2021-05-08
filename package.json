@@ -20,7 +20,7 @@
   "homepage": "https://github.com/nao20010128nao/bookish-octo-barnacle#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "chrome-aws-lambda": "^8.0.0",
+    "chrome-aws-lambda": "^9.0.0",
     "express": "^4.17.1",
     "puppeteer-core": "^9.0.0",
     "qs": "^6.9.6",
