@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     return res.redirect(`/api/y2mate/youtube?id=${id}&retry=${parseInt(retry || 0) + 1}`);
   }
 
-  const sizeSpecs = sizeSpecs["result"];
+  const sizeSpecs = sizeSpecData["result"];
 
   const titleMatch = /<b>(.+?)<\/b>/.exec(sizeSpecs);
   if (!titleMatch) {
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
   }
   const title = titleMatch[1].trim();
 
-  const requestId = /var k__id\s*=\s*(["'])(.+?)\1/.exec(sizeSpecs)[2];
+  const requestId = /var\s+k__id\s*=\s*(["'])(.+?)\1/.exec(sizeSpecs)[2];
 
   const tableRegex = /<table\s*.+?>(.+?)<\/table>/g;
   const videoTable = tableRegex.exec(sizeSpecs)[1];
