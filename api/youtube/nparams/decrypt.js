@@ -1,12 +1,7 @@
 const axios = require("axios");
 
-const nParamFuncName = [
-  /\.get\("n"\)\)&&\(([a-zA-Z0-9$]+)=([a-zA-Z0-9$]{3,})\(\1\)/,
-];
-const nParamFuncBody = [
-  /[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)$/ms,
-];
-
+const nParamFuncName = [/\.get\("n"\)\)&&\(([a-zA-Z0-9$]+)=([a-zA-Z0-9$]{3,})\(\1\)/];
+const nParamFuncBody = [/[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)$/ms];
 
 class NDecryptError extends Error {
   constructor(step, msg) {
@@ -25,7 +20,7 @@ function decryptNParam(playerJs, nValue) {
     }
   }
   if (!fName) {
-    throw new NDecryptError('finding_fname', 'Failed to find function name');
+    throw new NDecryptError("finding_fname", "Failed to find function name");
   }
 
   let funcBody;
@@ -37,14 +32,17 @@ function decryptNParam(playerJs, nValue) {
     }
   }
   if (!funcBody) {
-    throw new NDecryptError('finding_funcbody', 'Failed to find function body');
+    throw new NDecryptError("finding_funcbody", "Failed to find function body");
   }
 
   // build payload and evaluate it
-  const func = new Function("nn", `
+  const func = new Function(
+    "nn",
+    `
     const ndecrypter=${funcBody};
     return ndecrypter(nn);
-  `);
+  `
+  );
   try {
     return func(nValue);
   } catch (e) {
@@ -56,34 +54,35 @@ function decryptNParam(playerJs, nValue) {
 module.exports = async (req, resp) => {
   const { player, n } = req.query;
   let playerUrl = player;
-  if (!playerUrl.startsWith('https://') && !playerUrl.startsWith('http://')) {
+  if (!playerUrl.startsWith("https://") && !playerUrl.startsWith("http://")) {
     // setting "player" parameter to js url is always recommended
     playerUrl = `https://www.youtube.com/s/player/${playerUrl}/player_ias.vflset/en_US/base.js`;
   }
   let playerResponse;
   try {
     playerResponse = await axios(playerUrl, {
-      responseType: 'text',
+      responseType: "text",
     });
   } catch (e) {
     return resp.status(503).send({
-      'status': 'error',
-      'step': 'downloading_js',
-      "data": e
+      status: "error",
+      step: "downloading_js",
+      data: e,
     });
   }
   try {
     const decryptedN = decryptNParam(playerResponse.data, n);
-    return resp.setHeader("Cache-Control", "stale-while-revalidate=86400").send({
-      'status': 'ok',
-      "data": decryptedN,
+    resp.setHeader("Cache-Control", "stale-while-revalidate=86400");
+    return resp.send({
+      status: "ok",
+      data: decryptedN,
     });
   } catch (e) {
     console.error(e);
     return resp.status(503).send({
-      'status': 'error',
-      'step': e.step || "decrypting",
-      "data": e
+      status: "error",
+      step: e.step || "decrypting",
+      data: e,
     });
   }
 };
