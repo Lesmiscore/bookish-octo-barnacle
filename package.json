@@ -36,12 +36,10 @@
   "lint-staged": {
     "*.js": [
       "prettier --print-width 200 --write",
-      "eslint",
-      "git add"
+      "eslint"
     ],
     "*.json": [
-      "prettier --print-width 200 --write",
-      "git add"
+      "prettier --print-width 200 --write"
     ]
   }
 }
