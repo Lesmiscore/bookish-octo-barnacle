@@ -78,6 +78,7 @@ module.exports = async (req, resp) => {
       "data": decryptedN,
     });
   } catch (e) {
+    console.error(e);
     return resp.status(503).data({
       'status': 'error',
       'step': e.step || "decrypting",
