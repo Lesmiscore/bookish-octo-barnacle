@@ -66,7 +66,7 @@ module.exports = async (req, resp) => {
       responseType: 'text',
     });
   } catch (e) {
-    return resp.status(503).data({
+    return resp.status(503).send({
       'status': 'error',
       'step': 'downloading_js',
       "data": e
@@ -80,7 +80,7 @@ module.exports = async (req, resp) => {
     });
   } catch (e) {
     console.error(e);
-    return resp.status(503).data({
+    return resp.status(503).send({
       'status': 'error',
       'step': e.step || "decrypting",
       "data": e
