@@ -56,7 +56,7 @@ function decryptNParam(playerJs, nValue) {
 module.exports = async (req, resp) => {
   const { player, n } = req.query;
   let playerUrl = player;
-  if (!playerUrl.startsWith('https://') || !playerUrl.startsWith('http://')) {
+  if (!playerUrl.startsWith('https://') && !playerUrl.startsWith('http://')) {
     // setting "player" parameter to js url is always recommended
     playerUrl = `https://www.youtube.com/s/player/${playerUrl}/player_ias.vflset/en_US/base.js`;
   }
