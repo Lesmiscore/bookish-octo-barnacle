@@ -60,8 +60,9 @@ module.exports = async (req, resp) => {
     // setting "player" parameter to js url is always recommended
     playerUrl = `https://www.youtube.com/s/player/${playerUrl}/player_ias.vflset/en_US/base.js`;
   }
+  let playerResponse;
   try {
-    const { data } = await axios(playerUrl, {
+    playerResponse = await axios(playerUrl, {
       responseType: 'text',
     });
   } catch (e) {
@@ -72,7 +73,7 @@ module.exports = async (req, resp) => {
     });
   }
   try {
-    const decryptedN = decryptNParam(data, n);
+    const decryptedN = decryptNParam(playerResponse.data, n);
     return resp.data({
       'status': 'ok',
       "data": decryptedN,
