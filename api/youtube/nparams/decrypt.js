@@ -4,7 +4,7 @@ const nParamFuncName = [
   /\.get\("n"\)\)&&\(([a-zA-Z0-9$]+)=([a-zA-Z0-9$]{3,})\(\1\)/,
 ];
 const nParamFuncBody = [
- /[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)$/ms,
+  /[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)$/ms,
 ];
 
 
@@ -41,14 +41,14 @@ function decryptNParam(playerJs, nValue) {
   }
 
   // build payload and evaluate it
-  const func=new Function("nn", `
+  const func = new Function("nn", `
     const ndecrypter=${funcBody};
     return ndecrypter(nn);
   `);
-  try{
+  try {
     return func(nValue);
-  }catch(e){
-    e.step="eval_n";
+  } catch (e) {
+    e.step = "eval_n";
     throw e;
   }
 }
@@ -74,7 +74,7 @@ module.exports = async (req, resp) => {
   }
   try {
     const decryptedN = decryptNParam(playerResponse.data, n);
-    return resp.data({
+    return resp.send({
       'status': 'ok',
       "data": decryptedN,
     });
