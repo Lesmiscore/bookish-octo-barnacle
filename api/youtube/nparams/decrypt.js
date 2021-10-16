@@ -72,7 +72,7 @@ module.exports = async (req, resp) => {
   }
   try {
     const decryptedN = decryptNParam(playerResponse.data, n);
-    resp.setHeader("Cache-Control", "stale-while-revalidate=86400");
+    // resp.setHeader("Cache-Control", "stale-while-revalidate=86400");
     return resp.send({
       status: "ok",
       data: decryptedN,
