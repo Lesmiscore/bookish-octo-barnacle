@@ -31,10 +31,11 @@
     "eslint": "8.0.1",
     "husky": "7.0.2",
     "lint-staged": "11.2.1",
+    "mocha": "^9.1.3",
     "prettier": "2.4.0"
   },
   "lint-staged": {
-    "*.js": [
+    "/!(tests/youtube_playerjs/)*.js": [
       "prettier --print-width 200 --write",
       "eslint"
     ],
