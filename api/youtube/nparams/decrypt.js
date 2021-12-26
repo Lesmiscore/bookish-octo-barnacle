@@ -1,4 +1,5 @@
 const axios = require("axios");
+const ivm = require("isolated-vm")
 
 const nParamFuncName = [/\.get\("n"\)\)&&\(([a-zA-Z0-9$]+)=([a-zA-Z0-9$]{3,})\(\1\)/];
 const nParamFuncBody = [/[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)/ms];
@@ -10,7 +11,7 @@ class NDecryptError extends Error {
   }
 }
 
-function decryptNParam(playerJs, nValue) {
+async function decryptNParam(playerJs, nValue) {
   let fName;
   for (const re of nParamFuncName) {
     const matches = re.exec(playerJs);
@@ -36,15 +37,16 @@ function decryptNParam(playerJs, nValue) {
   }
 
   // build payload and evaluate it
-  const func = new Function(
-    "nn",
-    `
-    const ndecrypter=${funcBody};
-    return ndecrypter(nn);
-  `
-  );
+  const isolate = new ivm.Isolate();
+  const [context, script] = await Promise.all([
+    isolate.createContext(),
+    isolate.compileScript(`
+      const ndecrypter=${funcBody};
+      ndecrypter(${JSON.stringify(nValue)});
+    `)
+  ])
   try {
-    return func(nValue);
+    return await script.run(context);
   } catch (e) {
     e.step = "eval_n";
     throw e;
@@ -71,7 +73,7 @@ module.exports = async (req, resp) => {
     });
   }
   try {
-    const decryptedN = decryptNParam(playerResponse.data, n);
+    const decryptedN = await decryptNParam(playerResponse.data, n);
     // resp.setHeader("Cache-Control", "stale-while-revalidate=86400");
     return resp.send({
       status: "ok",
