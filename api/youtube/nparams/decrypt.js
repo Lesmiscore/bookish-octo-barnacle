@@ -1,7 +1,6 @@
 const axios = require("axios");
 const ivm = require("isolated-vm")
 
-const nParamFuncName = [/\.get\("n"\)\)&&\(([a-zA-Z0-9$]+)=([a-zA-Z0-9$]{3,})\(\1\)/];
 const nParamFuncBody = [/[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)/ms];
 
 class NDecryptError extends Error {
@@ -11,23 +10,34 @@ class NDecryptError extends Error {
   }
 }
 
+// https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^=!:${}()|[\]\/\\]/g, '\\$&');
+}
+
 async function decryptNParam(playerJs, nValue) {
-  let fName;
-  for (const re of nParamFuncName) {
-    const matches = re.exec(playerJs);
-    if (matches !== null) {
-      fName = matches[2];
-      break;
-    }
+  let fName, fIdx;
+  const nMatch = /\.get\("n"\)\)&&\(([a-zA-Z0-9$]+)=([a-zA-Z0-9$]+)(?:\[(\d+)\])?\(\1\)/.exec(playerJs);
+  if (nMatch) {
+    fName = nMatch[2];
+    fIdx = Number(nMatch[3]);
   }
+
   if (!fName) {
     throw new NDecryptError("finding_fname", "Failed to find function name");
+  }
+  if (!isNaN(fIdx)) {
+    const lMatch = new RegExp(`var ${escapeRegExp(fName)}\\s*=\\s*(\\[.+?\\]);`).exec(playerJs);
+    if (!lMatch) {
+      throw new NDecryptError("complex_fname", `Failed to search variable name ${fName}`);
+    }
+    const fName = JSON.parse(lMatch[1])[fIdx];
   }
 
   let funcBody;
   for (const re of nParamFuncBody) {
     const matches = new RegExp(re.source.replace(/\[FUNCNAME\]/g, fName), re.flags).exec(playerJs);
-    if (matches !== null) {
+    if (matches) {
       funcBody = matches[1];
       break;
     }
