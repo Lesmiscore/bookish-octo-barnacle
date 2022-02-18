@@ -31,7 +31,7 @@ async function decryptNParam(playerJs, nValue) {
     if (!lMatch) {
       throw new NDecryptError("complex_fname", `Failed to search variable name ${fName}`);
     }
-    const fName = JSON.parse(lMatch[1])[fIdx];
+    fName = JSON.parse(lMatch[1])[fIdx];
   }
 
   let funcBody;
