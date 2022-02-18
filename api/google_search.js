@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
   try {
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
     res.setHeader("Content-Type", "image/png");
-    await page.setViewport({ width: 1024, height: 768, deviceScaleFactor: 4 });
+    await page.setViewport({ width: 1366, height: 768, deviceScaleFactor: 4 });
     const [_, time] = await measureTime(async () => {
       await page.goto(`https://google.com/search?q=${encodeURIComponent(q)}`);
     });
