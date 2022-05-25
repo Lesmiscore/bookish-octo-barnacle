@@ -1,4 +1,4 @@
-# Miscellaneous ~~Proxy~~ Utility Microserivce for [ytdl-patched](https://github.com/nao20010128nao/ytdl-patched)
+# Miscellaneous ~~Proxy~~ Utility Microserivce for [ytdl-patched](https://github.com/ytdl-patched/ytdl-patched)
 
 This is a proxy and utitity microserivce for ytdl-patched for some websites.
 
