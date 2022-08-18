@@ -54,6 +54,7 @@ const ytdlpTests = [
 ];
 
 describe('decrypts n params', function () {
+  // players from youtube is also available at https://archive.org/details/youtube-player-js
   for (file of fs.readdirSync('./tests/youtube_playerjs/')) {
     it(file, async function () {
       const jscode = (await util.promisify(fs.readFile)('./tests/youtube_playerjs/' + file)).toString('utf8');
