@@ -27,11 +27,11 @@ async function decryptNParam(playerJs, nValue) {
     throw new NDecryptError("finding_fname", "Failed to find function name");
   }
   if (!isNaN(fIdx)) {
-    const lMatch = new RegExp(`var ${escapeRegExp(fName)}\\s*=\\s*(\\[.+?\\]);`).exec(playerJs);
+    const lMatch = new RegExp(`var ${escapeRegExp(fName)}\\s*=\\s*\\[(.+?)\\];`).exec(playerJs);
     if (!lMatch) {
       throw new NDecryptError("complex_fname", `Failed to search variable name ${fName}`);
     }
-    fName = JSON.parse(lMatch[1])[fIdx];
+    fName = lMatch[1].split(",")[fIdx];
   }
 
   let funcBody;
