@@ -42,7 +42,7 @@
     "no-extend-native": 1,
     "arrow-spacing": 0
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "sourceType": "module",
     "allowImportExportEverywhere": true
