@@ -1,4 +1,4 @@
-const chromium = require("chrome-aws-lambda");
+const chromium = require("@sparticuz/chrome-aws-lambda");
 const fs = require("fs");
 const path = require("path");
 const { performance } = require('perf_hooks');
