@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "pre-commit": "lint-staged",
-    "postinstall": "find . -name '*.node' -exec strip '{}' + || echo sad"
+    "postinstall": "./tweaks/postinstall.sh"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "@sparticuz/chrome-aws-lambda": "^16.2.0",
     "axios": "^0.27.0",
     "express": "^4.17.1",
+    "follow-redirects": "^1.15.1",
     "isolated-vm": "^4.4.1",
     "puppeteer-core": "^16.2.0",
     "qs": "^6.9.6",

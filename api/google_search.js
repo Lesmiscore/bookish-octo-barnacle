@@ -1,4 +1,3 @@
-const chromium = require("@sparticuz/chrome-aws-lambda");
 const fs = require("fs");
 const path = require("path");
 const { performance } = require('perf_hooks');
@@ -32,6 +31,11 @@ const negative = [
 ];
 
 module.exports = async (req, res) => {
+  // run tweak: stream chromium binary directly from GitHub
+  require("../tweaks/chrome");
+
+  const chromium = require("@sparticuz/chrome-aws-lambda");
+
   chromiumFontSetup();
   const { q } = req.query;
 
