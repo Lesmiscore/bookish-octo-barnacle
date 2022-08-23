@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node start.js",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "postinstall": "find . -name '*.node' -exec strip '{}' + || echo sad"
   },
   "repository": {
     "type": "git",
