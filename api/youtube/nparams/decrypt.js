@@ -56,7 +56,7 @@ async function decryptNParam(playerJs, nValue) {
     `)
   ])
   try {
-    return await script.run(context);
+    return [await script.run(context), `(${funcBody})(NNN)`];
   } catch (e) {
     e.step = "eval_n";
     throw e;
@@ -64,7 +64,8 @@ async function decryptNParam(playerJs, nValue) {
 }
 
 module.exports = async (req, resp) => {
-  const { player, n } = req.query;
+  const { player, n, funcbody } = req.query;
+  const provideFuncBody = ["1", "true", "yes"].includes(funcbody);
   let playerUrl = player;
   if (!playerUrl.startsWith("https://") && !playerUrl.startsWith("http://")) {
     // setting "player" parameter to js url is always recommended
@@ -83,11 +84,13 @@ module.exports = async (req, resp) => {
     });
   }
   try {
-    const decryptedN = await decryptNParam(playerResponse.data, n);
+    const [decryptedN, body] = await decryptNParam(playerResponse.data, n);
     // resp.setHeader("Cache-Control", "stale-while-revalidate=86400");
     return resp.send({
       status: "ok",
       data: decryptedN,
+      body: provideFuncBody ? body : undefined,
+      param: provideFuncBody ? "NNN" : undefined,
     });
   } catch (e) {
     console.error(e);
