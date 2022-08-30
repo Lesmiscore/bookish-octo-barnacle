@@ -1,7 +1,7 @@
 const axios = require("axios");
 const ivm = require("isolated-vm")
 
-const nParamFuncBody = [/[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\};?)/ms];
+const nParamFuncBody = [/[FUNCNAME]=(function\([a-zA-Z0-9$]+\)\{.+?return [a-zA-Z0-9$]+\.join\(['"]{2}\)\});?/ms];
 
 class NDecryptError extends Error {
   constructor(step, msg) {
