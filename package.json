@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "pre-commit": "lint-staged",
+    "test": "mocha tests/",
     "postinstall": "./tweaks/postinstall.sh"
   },
   "repository": {

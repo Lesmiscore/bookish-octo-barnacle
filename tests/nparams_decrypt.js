@@ -86,7 +86,7 @@ describe('decrypts n params', function () {
       const { data: jscode } = await axios(url, {
         responseType: "text",
       });
-      assert.strictEqual(await decrypt.decryptNParam(jscode, input), expected);
+      assert.strictEqual((await decrypt.decryptNParam(jscode, input))[0], expected);
     })
   }
 });
