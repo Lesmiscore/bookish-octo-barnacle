@@ -51,8 +51,7 @@ async function decryptNParam(playerJs, nValue) {
   const [context, script] = await Promise.all([
     isolate.createContext(),
     isolate.compileScript(`
-      const ndecrypter=${funcBody};
-      ndecrypter(${JSON.stringify(nValue)});
+      (${funcBody})(${JSON.stringify(nValue)})
     `)
   ])
   try {
