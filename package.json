@@ -28,7 +28,7 @@
     "isolated-vm": "^4.4.1",
     "puppeteer-core": "^17.0.0",
     "qs": "^6.9.6",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.18.9",
